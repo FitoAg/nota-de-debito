@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora de Economia Tributária — Fito Ag</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+      --font-sans: 'Area Normal', 'Inter', 'Helvetica Neue', Arial, sans-serif;
+      --purple:   #6b0ff2;
+      --pink:     #f454cd;
+      --cyan:     #04e0ff;
+      --cyan-mid: #04c8e0;
+      --white:    #f0eaff;
+      --bg:       #000000;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0a0010;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2rem 1rem 3rem;
+      font-family: var(--font-sans);
+    }
+
+    .wrapper {
+      background: var(--bg);
+      border-radius: 16px;
+      overflow: hidden;
+      width: 100%;
+      max-width: 920px;
+    }
+
+    .fito-input {
+      width: 100%;
+      background: #1e0d42;
+      border: 1px solid #3a2a5a;
+      border-radius: 8px;
+      color: var(--white);
+      padding: 8px 12px;
+      font-size: 15px;
+      text-align: right;
+      outline: none;
+      font-family: var(--font-sans);
+      transition: border-color 0.15s;
+    }
+    .fito-input:focus { border-color: var(--purple); }
+
+    .concept-card {
+      background: #120826;
+      border-radius: 12px;
+      padding: 1.25rem;
+      flex: 1;
+      min-width: 200px;
+    }
+    .divider { border: none; border-top: 1px solid #1e0e3a; }
+    .section  { border-bottom: 1px solid #1e0e3a; }
+    .row { display: flex; justify-content: space-between; align-items: center; font-size: 14px; padding: 3px 0; }
+
+    .calc-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: stretch; }
+    .legal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    @media (max-width: 640px) {
+      .calc-grid  { grid-template-columns: 1fr; }
+      .legal-grid { grid-template-columns: 1fr; }
+      .flow-steps { grid-template-columns: 1fr !important; }
+    }
+
+    .flow-num {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; flex-shrink: 0;
+    }
+    .flow-item { display: flex; gap: 8px; align-items: flex-start; }
+    .vconn { display: flex; justify-content: center; padding: 4px 0; }
+
+    #legal-panel { display: none; padding: 0 2.5rem 1.75rem; }
+
+    .lbl-sec {
+      color: var(--purple);
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .lbl-sec-b {
+      color: var(--cyan);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 8px;
+      opacity: .7;
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <div class="section" style="padding:2rem 2.5rem 1.75rem;text-align:center;">
+    <div style="color:var(--white);font-size:22px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Calculadora de economia tributária</div>
+    <div style="color:var(--white);font-size:15px;">Entenda o impacto real da nota de débito no custo do seu evento</div>
+  </div>
+
+  <!-- CONCEITO -->
+  <div class="section" style="padding:2rem 2.5rem;">
+    <div class="lbl-sec">entenda o conceito</div>
+    <div style="color:var(--white);font-size:19px;font-weight:500;margin-bottom:1.5rem;">O que é nota de débito?</div>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:1.5rem;">
+      <div class="concept-card" style="border-top:2px solid var(--purple);">
+        <div style="width:32px;height:32px;border-radius:8px;background:#1e0d42;border:1px solid #3a1a6a;display:flex;align-items:center;justify-content:center;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="1" width="9" height="12" rx="1" stroke="#6b0ff2" stroke-width="1.2"/><path d="M11 4h2a1 1 0 011 1v9a1 1 0 01-1 1H5a1 1 0 01-1-1v-1" stroke="#6b0ff2" stroke-width="1.2"/><path d="M4 5h5M4 7.5h5M4 10h3" stroke="#6b0ff2" stroke-width="1" stroke-linecap="round"/></svg></div>
+        <div style="color:#d8c8f0;font-size:14px;font-weight:500;margin-bottom:6px;">Documento contábil de reembolso</div>
+        <div style="color:var(--white);font-size:14px;line-height:1.6;">Instrumento formal para cobrar do contratante despesas pagas <em style="color:#d4c8f0;">por conta e ordem dele</em>, sem emissão de nota fiscal e sem tributação.</div>
+      </div>
+      <div class="concept-card" style="border-top:2px solid var(--pink);">
+        <div style="width:32px;height:32px;border-radius:8px;background:#1a0820;border:1px solid #4a1a3a;display:flex;align-items:center;justify-content:center;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="3" cy="8" r="2" stroke="#f454cd" stroke-width="1.2"/><circle cx="13" cy="8" r="2" stroke="#f454cd" stroke-width="1.2"/><path d="M5 8h4M9 8l-2-2M9 8l-2 2" stroke="#f454cd" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div style="color:#d8c8f0;font-size:14px;font-weight:500;margin-bottom:6px;">Para que serve</div>
+        <div style="color:var(--white);font-size:14px;line-height:1.6;">Transferir ao contratante o custo exato de fornecedores pagos antecipadamente — sem tributar o repasse.</div>
+      </div>
+      <div class="concept-card" style="border-top:2px solid var(--cyan);">
+        <div style="width:32px;height:32px;border-radius:8px;background:#001018;border:1px solid #0a3a5a;display:flex;align-items:center;justify-content:center;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="11" rx="1.5" stroke="#04e0ff" stroke-width="1.2"/><path d="M5 2v2M11 2v2M2 7h12" stroke="#04e0ff" stroke-width="1.2" stroke-linecap="round"/><circle cx="5.5" cy="10" r="1" fill="#04e0ff"/><circle cx="8" cy="10" r="1" fill="#04e0ff"/><circle cx="10.5" cy="10" r="1" fill="#04e0ff"/></svg></div>
+        <div style="color:#d8c8f0;font-size:14px;font-weight:500;margin-bottom:6px;">Quando aplicar</div>
+        <div style="color:var(--white);font-size:14px;line-height:1.6;">Quando a empresa contratada gerencia e paga fornecedores em nome do cliente. O reembolso deve ser idêntico ao desembolsado.</div>
+      </div>
+    </div>
+
+    <!-- FLUXO -->
+    <div style="background:#0a0520;border-radius:14px;padding:1.5rem;border:1px solid #1e0e3a;">
+      <div style="color:var(--white);font-size:11px;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:1.25rem;font-weight:500;">como funciona na prática</div>
+
+      <div style="background:#100828;border:1px solid #2a1a4a;border-radius:12px;padding:1.1rem 1.25rem;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--pink);"></div>
+          <span style="color:var(--pink);font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;">Modelo atual</span>
+        </div>
+        <div style="display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;">
+          <div>
+            <div style="color:var(--white);font-size:14px;font-weight:500;margin-bottom:8px;">Tudo na nota fiscal</div>
+            <div style="color:var(--white);font-size:13px;opacity:.8;">Custos fornecedores &nbsp;<span style="color:#5a4a7a;">+</span>&nbsp; Serviços Fito &nbsp;<span style="color:#5a4a7a;">+</span>&nbsp; Linhas Fito</div>
+          </div>
+          <div style="flex:1;min-width:160px;padding:7px 12px;background:#200838;border-radius:7px;border-left:2px solid rgba(244,84,205,.33);">
+            <span style="color:var(--white);font-size:13px;">= Base tributável total</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="vconn"><svg width="12" height="20" viewBox="0 0 12 20" fill="none"><path d="M6 0v14M2 10l4 6 4-6" stroke="#2a1a4a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+      <div style="background:#001428;border:1px solid rgba(4,224,255,.13);border-radius:12px;padding:1.1rem 1.25rem;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--cyan);"></div>
+          <span style="color:var(--cyan);font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;">Com nota de débito</span>
+        </div>
+        <div style="color:var(--white);font-size:14px;font-weight:500;margin-bottom:12px;">Como o repasse funciona</div>
+        <div class="flow-steps" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div class="flow-item"><div class="flow-num" style="background:#0a2a3a;border:1px solid rgba(4,224,255,.2);color:var(--cyan);">1</div><div style="color:var(--white);font-size:13px;line-height:1.55;">Fornecedores emitem NF à <strong style="color:var(--cyan);">Fito</strong> ou ao <strong style="color:var(--cyan);">cliente</strong>, conforme acordado para o projeto.</div></div>
+          <div class="flow-item"><div class="flow-num" style="background:#0a2a3a;border:1px solid rgba(4,224,255,.2);color:var(--cyan);">2</div><div style="color:var(--white);font-size:13px;line-height:1.55;"><strong style="color:var(--cyan);">Fito antecipa</strong> o pagamento aos fornecedores contratados.</div></div>
+          <div class="flow-item"><div class="flow-num" style="background:#0a2a3a;border:1px solid rgba(4,224,255,.2);color:var(--cyan);">3</div><div style="color:var(--white);font-size:13px;line-height:1.55;">Fito emite <strong style="color:var(--cyan);">nota de débito</strong> ao cliente, comprovando o repasse realizado.</div></div>
+          <div class="flow-item"><div class="flow-num" style="background:#0a2a3a;border:1px solid rgba(4,224,255,.2);color:var(--cyan);">4</div><div style="color:var(--white);font-size:13px;line-height:1.55;">O cliente recebe <strong style="color:var(--cyan);">NF da Fito</strong> referente somente aos <em style="color:#7ad8f0;">honorários de gestão e Linhas Fito</em> — custos de fornecedores já cobertos pela nota de débito.</div></div>
+        </div>
+      </div>
+
+      <div class="vconn"><svg width="12" height="20" viewBox="0 0 12 20" fill="none"><path d="M6 0v14M2 10l4 6 4-6" stroke="#2a1a4a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+      <div style="background:#0a0020;border:1px solid rgba(107,15,242,.2);border-radius:12px;padding:1.1rem 1.25rem;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--purple);"></div>
+          <span style="color:var(--purple);font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;">Resultado</span>
+        </div>
+        <div style="display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;">
+          <div style="flex:1;min-width:200px;">
+            <div style="color:var(--white);font-size:14px;font-weight:500;margin-bottom:6px;">Economia real</div>
+            <div style="color:var(--white);font-size:13px;line-height:1.6;">O cliente deixa de pagar tributação sobre os serviços de terceiros, garantindo <strong style="color:var(--purple);">regularidade fiscal</strong> na operação.</div>
+          </div>
+          <div style="flex:1;min-width:200px;padding:10px 12px;background:#140030;border-radius:8px;border-left:2px solid var(--purple);">
+            <div style="color:var(--white);font-size:12px;line-height:1.6;">Tributos incidem <em style="color:#9a78d0;">somente</em> sobre honorários e linhas Fito — não sobre o repasse de fornecedores.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BASE LEGAL -->
+  <div class="section">
+    <button id="legal-btn" onclick="toggleLegal()" style="width:100%;padding:1.25rem 2.5rem;background:transparent;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L1 5v4c0 3 3 5.5 7 6 4-.5 7-3 7-6V5L8 1z" stroke="#6b0ff2" stroke-width="1.2" stroke-linejoin="round"/></svg>
+        <span style="color:var(--white);font-size:15px;font-weight:500;">Base legal — validade jurídica da nota de débito</span>
+      </div>
+      <span id="legal-arrow" style="color:var(--purple);font-size:13px;">▼</span>
+    </button>
+    <div id="legal-panel">
+      <div class="legal-grid">
+        <div style="background:#100820;border-radius:12px;padding:1.25rem;border-left:3px solid var(--purple);">
+          <div style="color:var(--purple);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Por que é válido juridicamente</div>
+          <div style="color:var(--white);font-size:13px;font-weight:500;margin-bottom:8px;">Três pilares legais consolidados</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="padding:8px 10px;background:#180738;border-radius:8px;"><div style="color:#d4c8f0;font-size:13px;font-weight:500;">Decreto-Lei nº 406/68, art. 9º + LC 116/2003</div><div style="color:var(--white);font-size:13px;margin-top:3px;line-height:1.5;">Base de cálculo do ISS é o <em>preço do serviço</em> — não inclui valores pagos a terceiros e repassados como reembolso.</div></div>
+            <div style="padding:8px 10px;background:#180738;border-radius:8px;"><div style="color:#d4c8f0;font-size:13px;font-weight:500;">STJ — REsp 224.813/SP e 1.286.144/RS</div><div style="color:var(--white);font-size:13px;margin-top:3px;line-height:1.5;">Pacificado: reembolsos a terceiros têm natureza indenizatória, não remuneratória. Não há incidência de ISSQN sobre o repasse.</div></div>
+            <div style="padding:8px 10px;background:#180738;border-radius:8px;"><div style="color:#d4c8f0;font-size:13px;font-weight:500;">Municípios de SP e Ribeirão Preto</div><div style="color:var(--white);font-size:13px;margin-top:3px;line-height:1.5;">Legislações municipais de ISS baseadas na LC 116/2003, seguindo a mesma jurisprudência do STJ para reembolsos documentados.</div></div>
+          </div>
+        </div>
+        <div style="background:#0a0020;border-radius:12px;padding:1.25rem;border-left:3px solid var(--pink);">
+          <div style="color:var(--pink);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Requisitos obrigatórios</div>
+          <div style="color:var(--white);font-size:13px;font-weight:500;margin-bottom:12px;">Para garantir validade fiscal</div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;"><div style="width:20px;height:20px;border-radius:50%;background:#2a0a1a;border:1px solid rgba(244,84,205,.27);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;"><span style="color:var(--pink);font-size:10px;font-weight:600;">1</span></div><div style="color:var(--white);font-size:14px;line-height:1.55;">Previsão expressa de <strong>reembolso no contrato</strong> com o cliente</div></div>
+            <div style="display:flex;gap:10px;align-items:flex-start;"><div style="width:20px;height:20px;border-radius:50%;background:#2a0a1a;border:1px solid rgba(244,84,205,.27);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;"><span style="color:var(--pink);font-size:10px;font-weight:600;">2</span></div><div style="color:var(--white);font-size:14px;line-height:1.55;">Valor reembolsado <strong>idêntico ao pago</strong> ao fornecedor, sem acréscimo de margem</div></div>
+            <div style="display:flex;gap:10px;align-items:flex-start;"><div style="width:20px;height:20px;border-radius:50%;background:#2a0a1a;border:1px solid rgba(244,84,205,.27);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;"><span style="color:var(--pink);font-size:10px;font-weight:600;">3</span></div><div style="color:var(--white);font-size:14px;line-height:1.55;"><strong>Nota fiscal do fornecedor e comprovante de pagamento</strong> devem obrigatoriamente acompanhar a nota de débito para validação do documento, conforme <strong style="color:var(--pink);">art. 299 do RIR/99</strong></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CALCULADORA -->
+  <div style="padding:2rem 2.5rem;">
+    <div class="lbl-sec">calculadora interativa</div>
+    <div style="color:var(--white);font-size:19px;font-weight:500;margin-bottom:6px;">Simule o custo do seu evento</div>
+    <div style="color:var(--white);font-size:15px;margin-bottom:1.75rem;">Edite os valores nos campos destacados para ver a economia em tempo real</div>
+
+    <div class="calc-grid">
+
+      <!-- COLUNA A -->
+      <div style="background:#100820;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;">
+        <div style="padding:1rem 1.25rem;border-bottom:1px solid #1e0e3a;display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="color:var(--pink);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px;">Modelo atual</div>
+            <div style="color:var(--white);font-size:15px;font-weight:500;">Nota fiscal integral</div>
+          </div>
+          <div style="width:10px;height:10px;border-radius:50%;background:var(--pink);flex-shrink:0;"></div>
+        </div>
+        <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;">
+          <div class="lbl-sec">Custos do projeto</div>
+          <div style="margin-bottom:10px;">
+            <div style="color:var(--white);font-size:12px;margin-bottom:5px;display:flex;justify-content:space-between;"><span>Serviços Terceiros</span><span style="color:var(--purple);font-size:11px;opacity:.7;">editável</span></div>
+            <input class="fito-input" id="c1" type="text" inputmode="numeric" value="R$ 0,00" onfocus="fi(this)" onblur="bi(this)" oninput="im(this)" />
+          </div>
+          <div style="margin-bottom:10px;">
+            <div style="color:var(--white);font-size:12px;margin-bottom:5px;display:flex;justify-content:space-between;"><span>Serviços F. Fito</span><span style="color:var(--purple);font-size:11px;opacity:.7;">editável</span></div>
+            <input class="fito-input" id="c2" type="text" inputmode="numeric" value="R$ 0,00" onfocus="fi(this)" onblur="bi(this)" oninput="im(this)" />
+          </div>
+          <hr class="divider" style="margin:12px 0;" />
+          <div class="lbl-sec">Linhas Fito <span style="color:var(--white);font-size:10px;letter-spacing:0;text-transform:none;font-weight:400;opacity:.5;">sobre total dos custos</span></div>
+          <div class="row"><span style="color:#9a78d0;font-size:14px;">Fee / Honorários <span style="font-size:12px;opacity:.7;">(9%)</span></span><span style="color:#b090e8;font-weight:500;font-size:14px;" id="a-fee">R$ 0,00</span></div>
+          <div class="row"><span style="color:#9a78d0;font-size:14px;">Planejamento <span style="font-size:12px;opacity:.7;">(10%)</span></span><span style="color:#b090e8;font-weight:500;font-size:14px;" id="a-plan">R$ 0,00</span></div>
+          <div class="row"><span style="color:#9a78d0;font-size:14px;">Adm. Financeiro <span style="font-size:12px;opacity:.7;">(2%)</span></span><span style="color:#b090e8;font-weight:500;font-size:14px;" id="a-adm">R$ 0,00</span></div>
+          <hr class="divider" style="margin:12px 0;" />
+          <div class="lbl-sec">Tributação</div>
+          <div class="row" style="margin-bottom:4px;"><span style="color:var(--white);font-size:14px;">Base NF (tudo)</span><span style="color:var(--white);font-weight:500;font-size:14px;" id="a-base">R$ 0,00</span></div>
+          <div class="row"><span style="color:var(--pink);font-size:14px;">Tributos 15,5% sobre NF</span><span style="color:var(--pink);font-weight:500;font-size:14px;" id="a-trib">R$ 0,00</span></div>
+          <div style="background:#1e0d42;border-radius:10px;padding:14px 16px;margin-top:14px;display:flex;justify-content:space-between;align-items:center;">
+            <div style="color:var(--white);font-size:12px;text-transform:uppercase;letter-spacing:1.5px;font-weight:500;">Total do projeto</div>
+            <div style="color:var(--white);font-size:17px;font-weight:600;" id="a-total">R$ 0,00</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COLUNA B -->
+      <div style="background:#060816;border-radius:12px;overflow:hidden;border:1px solid rgba(4,224,255,.1);display:flex;flex-direction:column;">
+        <div style="padding:1rem 1.25rem;border-bottom:1px solid #0e1a2a;background:#1a0d3e;display:flex;justify-content:space-between;align-items:center;">
+          <div style="color:var(--white);font-size:15px;font-weight:500;">Com nota de débito</div>
+          <div style="width:10px;height:10px;border-radius:50%;background:var(--cyan);flex-shrink:0;"></div>
+        </div>
+        <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;">
+          <div class="lbl-sec-b">Custos do projeto</div>
+          <div style="background:#001018;border:1px solid #0a2a3a;border-radius:8px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <span style="color:var(--white);font-size:13px;">Serviços Terceiros <span style="color:var(--cyan);font-size:11px;opacity:.6;">— nota de débito</span></span>
+            <span style="color:#4ab8d8;font-size:14px;font-weight:500;" id="b-c1">R$ 0,00</span>
+          </div>
+          <div class="row" style="margin-bottom:4px;"><span style="color:var(--white);font-size:14px;">Serviços F. Fito</span><span style="color:#4ab8d8;font-weight:500;font-size:14px;" id="b-c2">R$ 0,00</span></div>
+          <hr class="divider" style="margin:12px 0;border-color:#0e1a2a;" />
+          <div class="lbl-sec-b">Linhas Fito <span style="color:var(--white);font-size:10px;letter-spacing:0;text-transform:none;font-weight:400;opacity:.5;">sobre total dos custos</span></div>
+          <div class="row"><span style="color:#4ab8d8;font-size:14px;">Fee / Honorários <span style="font-size:12px;opacity:.7;">(9%)</span></span><span style="color:#4ab8d8;font-weight:500;font-size:14px;" id="b-fee">R$ 0,00</span></div>
+          <div class="row"><span style="color:#4ab8d8;font-size:14px;">Planejamento <span style="font-size:12px;opacity:.7;">(10%)</span></span><span style="color:#4ab8d8;font-weight:500;font-size:14px;" id="b-plan">R$ 0,00</span></div>
+          <div class="row"><span style="color:#4ab8d8;font-size:14px;">Adm. Financeiro <span style="font-size:12px;opacity:.7;">(2%)</span></span><span style="color:#4ab8d8;font-weight:500;font-size:14px;" id="b-adm">R$ 0,00</span></div>
+          <hr class="divider" style="margin:12px 0;border-color:#0e1a2a;" />
+          <div class="lbl-sec-b">Tributação</div>
+          <div class="row" style="margin-bottom:4px;"><span style="color:var(--white);font-size:14px;">Base NF <span style="color:var(--cyan);font-size:11px;opacity:.6;">(Serv. F. Fito + Linhas Fito)</span></span><span style="color:var(--white);font-weight:500;font-size:14px;" id="b-base">R$ 0,00</span></div>
+          <div class="row"><span style="color:var(--cyan-mid);font-size:14px;">Tributos 15,5% sobre NF</span><span style="color:var(--cyan-mid);font-weight:500;font-size:14px;" id="b-trib">R$ 0,00</span></div>
+          <div style="background:#001828;border-radius:10px;padding:14px 16px;margin-top:14px;display:flex;justify-content:space-between;align-items:center;border:1px solid rgba(4,224,255,.13);">
+            <div style="color:var(--white);font-size:12px;text-transform:uppercase;letter-spacing:1.5px;font-weight:500;">Total do projeto</div>
+            <div style="color:var(--cyan);font-size:17px;font-weight:600;" id="b-total">R$ 0,00</div>
+          </div>
+          <div style="margin-top:14px;flex:1;background:#000a12;border:1px solid rgba(4,224,255,.13);border-radius:10px;padding:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+            <div style="color:var(--white);font-size:11px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;opacity:.6;">economia gerada para o cliente</div>
+            <div style="color:var(--cyan);font-size:22px;font-weight:700;letter-spacing:-0.5px;margin-bottom:4px;" id="eco-val">R$ 0,00</div>
+            <div style="color:var(--white);font-size:12px;opacity:.7;" id="eco-pct">—</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function fmt(v){return 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});}
+  function raw(el){var s=el.value.replace(/[^\d]/g,'');return s?parseInt(s,10)/100:0;}
+  function fi(el){var r=raw(el);el.value=r===0?'':String(Math.round(r*100));el.setSelectionRange(el.value.length,el.value.length);}
+  function bi(el){el.value=fmt(raw(el));calc();}
+  function im(el){el.value=el.value.replace(/\D/g,'');calc();}
+  function calc(){
+    var c1=raw(document.getElementById('c1'));
+    var c2=raw(document.getElementById('c2'));
+    var base=c1+c2;
+    var fee=base*0.09,plan=base*0.10,adm=base*0.02,tf=fee+plan+adm;
+    var baseA=base+tf,tribA=baseA*0.155,totA=baseA+tribA;
+    document.getElementById('a-fee').textContent=fmt(fee);
+    document.getElementById('a-plan').textContent=fmt(plan);
+    document.getElementById('a-adm').textContent=fmt(adm);
+    document.getElementById('a-base').textContent=fmt(baseA);
+    document.getElementById('a-trib').textContent=fmt(tribA);
+    document.getElementById('a-total').textContent=fmt(totA);
+    var baseB=c2+tf,tribB=baseB*0.155,totB=c1+c2+tf+tribB;
+    document.getElementById('b-c1').textContent=fmt(c1);
+    document.getElementById('b-c2').textContent=fmt(c2);
+    document.getElementById('b-fee').textContent=fmt(fee);
+    document.getElementById('b-plan').textContent=fmt(plan);
+    document.getElementById('b-adm').textContent=fmt(adm);
+    document.getElementById('b-base').textContent=fmt(baseB);
+    document.getElementById('b-trib').textContent=fmt(tribB);
+    document.getElementById('b-total').textContent=fmt(totB);
+    var eco=totA-totB,pct=totA>0?(eco/totA*100):0;
+    document.getElementById('eco-val').textContent=fmt(eco);
+    document.getElementById('eco-pct').textContent=totA>0?pct.toFixed(1)+'% de redução sobre o custo total do projeto':'—';
+  }
+  function toggleLegal(){
+    var p=document.getElementById('legal-panel'),a=document.getElementById('legal-arrow');
+    if(p.style.display==='none'||p.style.display===''){p.style.display='block';a.textContent='▲';}
+    else{p.style.display='none';a.textContent='▼';}
+  }
+</script>
+
+</body>
+</html>
